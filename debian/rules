@@ -1,0 +1,94 @@
+#!/usr/bin/make -f
+include /usr/share/dpkg/pkg-info.mk
+export DH_VERBOSE=1
+
+export DEB_BUILD_MAINT_OPTIONS=hardening=+all,-format
+
+target=riscv64-unknown-elf
+package=gcc-$(target)
+
+build_flags=$(shell dpkg-buildflags --export=configure)
+
+build_dir=build
+
+target_bin=/usr/lib/$(target)/bin/
+
+target_tools=\
+	AR_FOR_TARGET=$(target_bin)ar \
+	AS_FOR_TARGET=$(target_bin)as \
+	NM_FOR_TARGET=$(target_bin)nm \
+	LD_FOR_TARGET=$(target_bin)ld \
+	OBJDUMP_FOR_TARGET=$(target_bin)objdump \
+	RANLIB_FOR_TARGET=$(target_bin)ranlib \
+	READELF_FOR_TARGET=$(target_bin)readelf \
+	STRIP_FOR_TARGET=$(target_bin)strip
+
+configure_flags = \
+	--target=riscv64-unknown-elf \
+	--prefix=/usr \
+	--infodir=/usr/share/doc/$(package)/info \
+	--mandir=/usr/share/man \
+	--htmldir=/usr/share/doc/$(package)/html \
+	--pdfdir=/usr/share/doc/$(package)/pdf \
+	--bindir=/usr/bin \
+	--libexecdir=/usr/lib \
+	--libdir=/usr/lib \
+	--with-pkgversion='$(DEBIAN_VERSION_UPSTREAM)' \
+	--disable-shared \
+	--disable-threads \
+	--enable-languages=c,c++ \
+	--enable-tls \
+	--with-newlib \
+	--with-native-system-header-dir=/include \
+	--disable-libmudflap \
+	--disable-libssp \
+	--disable-libquadmath \
+	--disable-libgomp \
+	--disable-nls \
+	--with-system-zlib \
+	--enable-checking=yes \
+	--enable-multilib \
+	--with-abi=lp64d \
+	--disable-libstdcxx-pch \
+	--disable-libstdcxx \
+	--disable-fixinc \
+	--with-arch=rv64imafdc \
+	--with-gnu-as \
+	--with-gnu-ld \
+	--with-as=$(target_bin)as \
+	--with-ld=$(target_bin)ld \
+	$(target_tools) \
+	$(build_flags) \
+	CFLAGS_FOR_TARGET='-Os -mcmodel=medany' CXXFLAGS_FOR_TARGET='-Os -mcmodel=medany'
+
+make_flags=\
+	MAKE="make STMP_FIXINC= -j4" \
+	STMP_FIXINC= \
+	-j4
+
+DH_FLAGS=-B$(build_dir) --parallel
+
+%:
+	dh $@ $(DH_FLAGS) --without-autoreconf
+
+override_dh_auto_configure:
+	mkdir -p $(build_dir)
+	dh_auto_configure $(DH_FLAGS) -- $(configure_flags)
+
+override_dh_auto_test:
+	@echo "no testing, that's way too painful"
+
+override_dh_auto_install:
+	dh_auto_install $(DH_FLAGS) --destdir=debian/tmp -- $(make_flags)
+
+override_dh_autoreconf:
+	echo no autoreconf
+
+override_dh_auto_build:
+	dh_auto_build $(DH_FLAGS) -- $(make_flags)
+
+override_dh_strip:
+	dh_strip -X.a -X.o
+
+override_dh_makeshlibs:
+	dh_makeshlibs --no-scripts

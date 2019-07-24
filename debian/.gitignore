@@ -1,0 +1,7 @@
+.debhelper
+debhelper-*
+files
+*.substvars
+gcc-riscv64-unknown-elf/
+tmp/
+!*.patch

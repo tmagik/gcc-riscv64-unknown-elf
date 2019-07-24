@@ -1,0 +1,11 @@
+#
+# All of the libgcc bits are non-native, which is kinda the point
+#
+gcc-riscv64-unknown-elf: hardening-no-pie
+gcc-riscv64-unknown-elf: binary-from-other-architecture
+gcc-riscv64-unknown-elf: binary-without-manpage
+gcc-riscv64-unknown-elf: unstripped-static-library usr/lib/gcc/riscv64-unknown-elf/*
+gcc-riscv64-unknown-elf: static-library-has-unneeded-section usr/lib/gcc/riscv64-unknown-elf/*
+gcc-riscv64-unknown-elf: package-contains-documentation-outside-usr-share-doc
+gcc-riscv64-unknown-elf: package-contains-empty-directory usr/share/man/man1/
+gcc-riscv64-unknown-elf: spelling-error-in-binary

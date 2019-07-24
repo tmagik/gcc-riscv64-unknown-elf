@@ -1,0 +1,6 @@
+0001-SiFive-CLIC-patches-for-preemptible-and-stack-swappi.patch
+0002-Finish-CLIC-support-resolving-patch-merge-error-and-.patch
+0003-Fix-for-mingw-hosted-gcc-LTO-support.patch
+0004-RISC-V-Add-sifive-7-pipeline-description.patch
+0005-RISC-V-Add-short-forward-branch-optimization-for-sif.patch
+0006-RISC-V-Sync-multilib-list-with-freedom-tools.patch

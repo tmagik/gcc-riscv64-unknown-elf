@@ -1,0 +1,54 @@
+From: Jim Wilson <jimw@sifive.com>
+Date: Thu, 21 Feb 2019 18:58:20 -0800
+Subject: Fix for mingw hosted gcc LTO support.
+
+	libiberty/
+	2019-01-22  Nidal Faour  <nidal.faour@wdc.com>
+	PR lto/88422
+	* simple-object.c (O_BINARY): Define if not already defined.
+	(simple_object_copy_lto_debug_sections): Create file in binary
+	mode.
+---
+ libiberty/ChangeLog       | 7 +++++++
+ libiberty/simple-object.c | 6 +++++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/libiberty/ChangeLog b/libiberty/ChangeLog
+index 9b49747..73b28be 100644
+--- a/libiberty/ChangeLog
++++ b/libiberty/ChangeLog
+@@ -1,3 +1,10 @@
++2019-01-22  Nidal Faour  <nidal.faour@wdc.com>
++
++	PR lto/88422
++	* simple-object.c (O_BINARY): Define if not already defined.
++	(simple_object_copy_lto_debug_sections): Create file in binary
++	mode.
++
+ 2018-07-26  Release Manager
+ 
+ 	* GCC 8.2.0 released.
+diff --git a/libiberty/simple-object.c b/libiberty/simple-object.c
+index 42aa6ac..d2465c6 100644
+--- a/libiberty/simple-object.c
++++ b/libiberty/simple-object.c
+@@ -44,6 +44,10 @@ Boston, MA 02110-1301, USA.  */
+ #define SEEK_SET 0
+ #endif
+ 
++#ifndef O_BINARY
++#define O_BINARY 0
++#endif
++
+ #include "simple-object-common.h"
+ 
+ /* The known object file formats.  */
+@@ -326,7 +330,7 @@ simple_object_copy_lto_debug_sections (simple_object_read *sobj,
+       return errmsg;
+     }
+ 
+-  outfd = creat (dest, 00777);
++  outfd = open (dest, O_CREAT|O_WRONLY|O_TRUNC|O_BINARY, 00777);
+   if (outfd == -1)
+     {
+       *err = errno;

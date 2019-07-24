@@ -1,0 +1,23 @@
+Source: gcc-riscv64-unknown-elf
+Section: devel
+Priority: optional
+Maintainer: Keith Packard <keith.packard@sifive.com>
+Build-Depends: debhelper (>= 10.0.0), m4, libtool,
+        zlib1g-dev, gawk, lzma, xz-utils, patchutils,
+	bison, flex, gettext, texinfo, locales, sharutils,
+	libmpfr-dev, libmpc-dev, libgmp-dev,
+	dejagnu, autogen, lsb-release,
+	binutils-riscv64-unknown-elf, quilt
+Standards-Version: 4.4.0
+Homepage: https://github.com/riscv/riscv-gcc
+Vcs-Git: https://salsa.debian.org/debian/gcc-riscv64-unknown-elf.git
+Vcs-Browser: https://salsa.debian.org/debian/gcc-riscv64-unknown-elf
+X-Python-Version: >= 2.7
+
+Package: gcc-riscv64-unknown-elf
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, binutils-riscv64-unknown-elf
+Description: GCC compiler for embedded RISC-V chips
+ Bare metal compiler for embedded RISC-V chips supporting both 64 and
+ 32 bit architectures. This package includes patches for
+ vendor-specific ISA extensions.

@@ -1,0 +1,6 @@
+gcc-riscv64-unknown-elf (8.2.0.2019.08+dfsg~rc1-1) unstable; urgency=low
+
+  * Initial packaging
+
+ -- Keith Packard <keith.packard@sifive.com>  Thu, 15 Aug 2019 23:20:51 -0700
+

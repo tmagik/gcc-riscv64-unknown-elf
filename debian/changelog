@@ -1,3 +1,11 @@
+gcc-riscv64-unknown-elf (8.3.0.2019.08+dfsg-1) unstable; urgency=medium
+
+  * Move to GCC 8.3.0
+  * Remove non-DFSG documentation
+  * Add in a few SiFive patches
+
+ -- Keith Packard <keithp@keithp.com>  Tue, 01 Oct 2019 18:26:31 -0700
+
 gcc-riscv64-unknown-elf (8.2.0.2019.08+dfsg~rc1-1) unstable; urgency=low
 
   * Initial packaging
